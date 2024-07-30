@@ -54,11 +54,11 @@ public class ReferendumController(
     }
 
     [HttpPost]
-    public IActionResult Create()
+    public IActionResult Create([FromBody] CreateReferendumRequest request)
     {
         try
         {
-            var newReferendum = repository.Create();
+            var newReferendum = repository.Create(request);
 
             return Ok(newReferendum);
         }
@@ -73,11 +73,16 @@ public class ReferendumController(
     }
 
     [HttpPatch]
-    public IActionResult Update()
+    public IActionResult Update([FromBody] UpdateReferendumRequest request)
     {
+        if (request is null)
+        {
+            return BadRequest("No POST body found");
+        }
+
         try
         {
-            var updatedReferendum = repository.Update();
+            var updatedReferendum = repository.Update(request);
 
             return Ok(updatedReferendum);
         }

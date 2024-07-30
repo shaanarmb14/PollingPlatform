@@ -1,11 +1,19 @@
+using Legislation.Api.Law;
+using Legislation.Api.Referendum;
+using Legislation.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<LegislationContext>(o => 
+    o.UseNpgsql(builder.Configuration.GetConnectionString("LegislationContext")));
+
+builder.Services.AddTransient<ILawRepository, LawRepository>();
+builder.Services.AddTransient<IReferendumRepository, ReferendumRepository>();
 
 var app = builder.Build();
 

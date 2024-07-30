@@ -16,10 +16,15 @@ public class ReferendumConfiguration : IEntityTypeConfiguration<Referendum>
 
         // Note postgress specific
         builder
-            .Property(l => l.CreatedAt)
+            .Property(r => r.CreatedAt)
             .HasDefaultValueSql("now() AT TIME ZONE 'UTC'");
         builder
-            .Property(l => l.LastUpdated)
+            .Property(r => r.LastUpdated)
             .HasDefaultValueSql("now() AT TIME ZONE 'UTC'");
+
+        // Not sure if this is doubling up with [DefaultValue] attribute
+        builder
+            .Property(r => r.Ended)
+            .HasDefaultValue(false);
     }
 }

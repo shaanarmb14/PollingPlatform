@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Legislation.Data.Entities;
@@ -10,6 +11,8 @@ public class Referendum
     public int ID { get; init; }
     [Column(TypeName = "varchar(100)")]
     public string Name { get; init; } = string.Empty;
+    [DefaultValue(false)]
+    public bool Ended { get; init; } = false;
     public DateTime CreatedAt { get; init; }
     public DateTime LastUpdated { get; init; }
 

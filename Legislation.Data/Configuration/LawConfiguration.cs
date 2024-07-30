@@ -25,5 +25,9 @@ public class LawConfiguration : IEntityTypeConfiguration<Law>
         builder
             .Property(l => l.LastUpdated)
             .HasDefaultValueSql("now() AT TIME ZONE 'UTC'");
+
+        builder
+            .Property(l => l.Votes)
+            .HasDefaultValue(0);
     }
 }

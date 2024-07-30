@@ -29,10 +29,13 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
     ///TODO: add better collision handling
     public ReferendumEntity Create(CreateReferendumRequest req) 
     {
+        var now = DateTime.UtcNow;
         var newEntity = new ReferendumEntity
         {
             Name = req.Name,
-            Laws = req.Laws ?? []
+            Laws = req.Laws ?? [],
+            CreatedAt = now,
+            LastUpdated = now
         };
 
         var createdEntity = context.Referendums.Add(newEntity);
@@ -45,16 +48,13 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
         var referendum = context.Referendums
                     .AsNoTracking()
                     .SingleOrDefault(r => r.ID == req.ReferendumID) ?? throw new ArgumentException("Invalid referendum ID");
-        
-        if (req.Name is not null)
+
+        if (req.Name is not null && req.Name != string.Empty)
         {
             referendum.Name = req.Name;
         }
-
-        if (req.Ended is not null)
-        {
-            referendum.Ended = req.Ended ?? false;
-        }
+        referendum.Ended = req.Ended ?? false;
+        referendum.LastUpdated = DateTime.UtcNow;
 
         var updatedEntity = context.Referendums.Update(referendum);
         context.SaveChanges();

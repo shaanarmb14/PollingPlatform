@@ -8,14 +8,14 @@ public class Law
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int ID { get; init; }
+    public int ID { get; set; }
     [Column(TypeName = "varchar(100)")]
-    public string Name { get; init; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
     [DefaultValue(0)]
-    public int Votes { get; init; } = 0;
-    public DateTime CreatedAt { get; init; }
-    public DateTime LastUpdated { get; init; }
+    public int Votes { get; set; } = 0;
+    public DateTime CreatedAt { get; set; }
+    public DateTime LastUpdated { get; set; }
 
-    public int ReferendumID { get; init; }
-    public required Referendum Referendum { get; init; }
+    public int ReferendumID { get; set; }
+    public Referendum Referendum { get; set; } = null!;
 }

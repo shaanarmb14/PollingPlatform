@@ -55,11 +55,11 @@ public class LawController(
     }
 
     [HttpPost]
-    public IActionResult Create()
+    public IActionResult Create([FromBody] CreateLawRequest req)
     {
         try
         {
-            var newLaw = repository.Create();
+            var newLaw = repository.Create(req);
 
             return Ok(newLaw);
         }
@@ -74,11 +74,11 @@ public class LawController(
     }
 
     [HttpPatch]
-    public IActionResult Update()
+    public IActionResult Update([FromBody] UpdateLawRequest req)
     {
         try
         {
-            var updatedLaw = repository.Update();
+            var updatedLaw = repository.Update(req);
 
             return Ok(updatedLaw);
         }

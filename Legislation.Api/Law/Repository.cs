@@ -8,8 +8,8 @@ public interface ILawRepository
 { 
     List<LawEntity> GetMany();
     LawEntity? GetByID(int id);
-    Task<LawEntity> Create();
-    Task<LawEntity> Update();
+    LawEntity Create(CreateLawRequest req);
+    LawEntity Update(UpdateLawRequest req);
     bool Delete(int id);
 }
 
@@ -28,15 +28,42 @@ public class LawRepository(LegislationContext context) : ILawRepository
     }
 
     ///TODO: do I want to use a DTO?
-    public Task<LawEntity> Create()
+    public LawEntity Create(CreateLawRequest req)
     {
-        throw new NotImplementedException();
+        var referendum = context.Referendums
+                            .AsNoTracking()
+                            .Include(r => r.Laws)
+                            .Single(r => r.ID == req.ReferendumID) ?? throw new ArgumentException("Referendum not found");
+        
+        var newEntity = new LawEntity()
+        {
+            ReferendumID = referendum.ID,
+            Name = req.Name,
+            Votes = req.Votes
+        };
+        var createdEntity = context.Laws.Add(newEntity);
+        context.SaveChanges();
+        return createdEntity.Entity;
+
     }
 
     ///TODO: do I want to use a DTO?
-    public Task<LawEntity> Update()
+    public LawEntity Update(UpdateLawRequest req)
     {
-        throw new NotImplementedException();
+        var law = context.Laws
+            .AsNoTracking()
+            .SingleOrDefault(l => l.ID == req.LawID) ?? throw new ArgumentException("Invalid Law ID");
+
+        if (req.Name is not null && req.Name != string.Empty)
+        {
+            law.Name = req.Name;
+        }
+        law.Votes = req.Votes;
+
+        var updatedEntity = context.Laws.Update(law);
+        context.SaveChanges();
+        return updatedEntity.Entity;
+
     }
 
     public bool Delete(int id)

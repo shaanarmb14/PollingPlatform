@@ -1,9 +1,28 @@
+using MassTransit;
+using Microsoft.Extensions.Options;
+using Voting.Api;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMq"));
+
+builder.Services.AddMassTransit(x =>
+{
+    x.SetKebabCaseEndpointNameFormatter();
+    x.UsingRabbitMq((ctx, cfg) =>
+    {
+        var config = ctx.GetRequiredService<IOptions<RabbitMQSettings>>().Value;
+        cfg.Host(config.Host, "/", h =>
+        {
+            h.Username(config.Username);
+            h.Password(config.Password);
+        });
+        cfg.ConfigureEndpoints(ctx);
+    });
+});
 
 var app = builder.Build();
 
@@ -16,9 +35,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/vote", () =>
+app.MapPost("/vote", (IPublishEndpoint publisher, VoteRequest request) =>
 {
-    Console.WriteLine("Hello from minimal voting API");
+    var message = request.ToMessage();
+    publisher.Publish(message);
 })
 .WithName("CreateVote")
 .WithOpenApi(); ;

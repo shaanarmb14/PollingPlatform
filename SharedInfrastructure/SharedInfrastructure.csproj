@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Queues\Consumers\" />
+    <Folder Include="Queues\Publishers\" />
+  </ItemGroup>
+
 </Project>

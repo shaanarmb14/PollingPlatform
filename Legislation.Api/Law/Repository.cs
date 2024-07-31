@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Legislation.Data;
+﻿using Legislation.Data;
+using Microsoft.EntityFrameworkCore;
 using LawEntity = Legislation.Data.Entities.Law;
 
 namespace Legislation.Api.Law;
@@ -17,17 +17,21 @@ public class LawRepository(LegislationContext context) : ILawRepository
 {
     public List<LawEntity> GetMany()
     {
-        return [.. context.Laws.AsNoTracking()];
+        var laws = context.Laws
+            .AsNoTracking()
+            .Include(l => l.Referendum);
+        return [.. laws];
     }
 
     public LawEntity? GetByID(int id)
     {
         return context.Laws
             .AsNoTracking()
+            .Include(l => l.Referendum)
             .SingleOrDefault();
     }
 
-    ///TODO: do I want to use a DTO?
+    ///TODO: add better collision/duplicate handling?
     public LawEntity Create(CreateLawRequest req)
     {
         var referendum = context.Referendums
@@ -35,11 +39,14 @@ public class LawRepository(LegislationContext context) : ILawRepository
                             .Include(r => r.Laws)
                             .Single(r => r.ID == req.ReferendumID) ?? throw new ArgumentException("Referendum not found");
         
+        var now = DateTime.UtcNow;
         var newEntity = new LawEntity()
         {
             ReferendumID = referendum.ID,
             Name = req.Name,
-            Votes = req.Votes
+            Votes = req.Votes,
+            CreatedAt = now,
+            LastUpdated = now
         };
         var createdEntity = context.Laws.Add(newEntity);
         context.SaveChanges();
@@ -47,18 +54,18 @@ public class LawRepository(LegislationContext context) : ILawRepository
 
     }
 
-    ///TODO: do I want to use a DTO?
     public LawEntity Update(UpdateLawRequest req)
     {
         var law = context.Laws
             .AsNoTracking()
             .SingleOrDefault(l => l.ID == req.LawID) ?? throw new ArgumentException("Invalid Law ID");
 
-        if (req.Name is not null && req.Name != string.Empty)
+        if (!string.IsNullOrWhiteSpace(req.Name))
         {
             law.Name = req.Name;
         }
-        law.Votes = req.Votes;
+
+        law.Votes = req.Votes ?? law.Votes;
 
         var updatedEntity = context.Laws.Update(law);
         context.SaveChanges();

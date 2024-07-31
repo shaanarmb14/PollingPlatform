@@ -16,13 +16,17 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
 {
     public List<ReferendumEntity> GetMany() 
     {
-        return [..context.Referendums.AsNoTracking()];
+        var referendums = context.Referendums
+                            .AsNoTracking()
+                            .Include(r => r.Laws);
+        return [.. referendums];
     }
 
     public ReferendumEntity GetByID(int id) 
     {
         return context.Referendums
             .AsNoTracking()
+            .Include(r => r.Laws)
             .Single();
     }
 
@@ -49,7 +53,7 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
                     .AsNoTracking()
                     .SingleOrDefault(r => r.ID == req.ReferendumID) ?? throw new ArgumentException("Invalid referendum ID");
 
-        if (req.Name is not null && req.Name != string.Empty)
+        if (!string.IsNullOrWhiteSpace(req.Name))
         {
             referendum.Name = req.Name;
         }

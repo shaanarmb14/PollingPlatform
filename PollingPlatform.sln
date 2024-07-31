@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Legislation.Api", "Legislation.Api\Legislation.Api.csproj", "{5FCB5AC8-8349-4D7F-ABA1-44604426BF45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedInfrastructure", "SharedInfrastructure\SharedInfrastructure.csproj", "{C1C7A2BA-DC54-49CA-8BBB-D960E629835B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "SharedInfrastructure\Infrastructure.csproj", "{C1C7A2BA-DC54-49CA-8BBB-D960E629835B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Legislation.Data", "Legislation.Data\Legislation.Data.csproj", "{EF8DCF65-41D6-452E-BD3D-429BDAF558A4}"
 EndProject

@@ -8,18 +8,17 @@ namespace SharedInfrastructure.Queues.Config;
 
 public static class MassTransitConfig
 {
-    public static IServiceCollection AddMassTransitWithRabbitMq(this IServiceCollection services)
+    public static IServiceCollection AddMassTransitWithRabbitMq(this IServiceCollection services, RabbitMQSettings settings)
     {
         services.AddMassTransit(x =>
         {
             x.SetKebabCaseEndpointNameFormatter();
             x.UsingRabbitMq((ctx, cfg) =>
             {
-                var rabbitMqSettings = ctx.GetRequiredService<IOptions<RabbitMQSettings>>().Value;
-                cfg.Host(rabbitMqSettings.Host, h =>
+                cfg.Host(settings.Host, h =>
                 {
-                    h.Username(rabbitMqSettings.Username);
-                    h.Password(rabbitMqSettings.Password);
+                    h.Username(settings.Username);
+                    h.Password(settings.Password);
                 });
 
                 cfg.ConfigureEndpoints(ctx);

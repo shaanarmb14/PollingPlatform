@@ -7,9 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMq"));
-
-builder.Services.AddMassTransitWithRabbitMq();
+var rabbitMQConfig = new RabbitMQSettings() { Host = string.Empty, Username = string.Empty, Password = string.Empty};
+builder.Configuration.GetSection("RabbitMq").Bind(rabbitMQConfig);
+builder.Services.AddMassTransitWithRabbitMq(rabbitMQConfig);
 
 var app = builder.Build();
 

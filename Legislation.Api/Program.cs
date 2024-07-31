@@ -14,8 +14,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<LegislationContext>(o => 
     o.UseNpgsql(builder.Configuration.GetConnectionString("LegislationContext")));
 
-builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMq"));
-builder.Services.AddMassTransitWithRabbitMq();
+var rabbitMQConfig = new RabbitMQSettings() { Host = string.Empty, Username = string.Empty, Password = string.Empty };
+builder.Configuration.GetSection("RabbitMq").Bind(rabbitMQConfig);
+builder.Services.AddMassTransitWithRabbitMq(rabbitMQConfig);
 
 builder.Services.AddTransient<ILawRepository, LawRepository>();
 builder.Services.AddTransient<IReferendumRepository, ReferendumRepository>();

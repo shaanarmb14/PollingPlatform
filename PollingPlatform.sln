@@ -3,25 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legislation.Api", "Legislation.Api\Legislation.Api.csproj", "{5FCB5AC8-8349-4D7F-ABA1-44604426BF45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Legislation.Api", "Legislation.Api\Legislation.Api.csproj", "{5FCB5AC8-8349-4D7F-ABA1-44604426BF45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedInfrastructure", "SharedInfrastructure\SharedInfrastructure.csproj", "{C1C7A2BA-DC54-49CA-8BBB-D960E629835B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedInfrastructure", "SharedInfrastructure\SharedInfrastructure.csproj", "{C1C7A2BA-DC54-49CA-8BBB-D960E629835B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legislation.Data", "Legislation.Data\Legislation.Data.csproj", "{EF8DCF65-41D6-452E-BD3D-429BDAF558A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Legislation.Data", "Legislation.Data\Legislation.Data.csproj", "{EF8DCF65-41D6-452E-BD3D-429BDAF558A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Results.Api", "Results.Api\Results.Api.csproj", "{5CC897C6-C67D-4DF2-85BC-CB510FFE7F2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Results.Api", "Results.Api\Results.Api.csproj", "{5CC897C6-C67D-4DF2-85BC-CB510FFE7F2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voting.Api", "Voting.Api\Voting.Api.csproj", "{BE44E768-F7AF-478F-8CE4-F5A9C851C955}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity", "Identity\Identity.csproj", "{54342F29-9124-4F6D-A4EB-B7F01F442518}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voting.Api", "Voting.Api\Voting.Api.csproj", "{BE44E768-F7AF-478F-8CE4-F5A9C851C955}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5FCB5AC8-8349-4D7F-ABA1-44604426BF45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,9 +39,11 @@ Global
 		{BE44E768-F7AF-478F-8CE4-F5A9C851C955}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE44E768-F7AF-478F-8CE4-F5A9C851C955}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE44E768-F7AF-478F-8CE4-F5A9C851C955}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54342F29-9124-4F6D-A4EB-B7F01F442518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54342F29-9124-4F6D-A4EB-B7F01F442518}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54342F29-9124-4F6D-A4EB-B7F01F442518}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54342F29-9124-4F6D-A4EB-B7F01F442518}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BEC37B72-B1A1-42D9-AFD1-0D2072DD6960}
 	EndGlobalSection
 EndGlobal

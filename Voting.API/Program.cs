@@ -1,5 +1,5 @@
 using MassTransit;
-using Microsoft.Extensions.Options;
+using SharedInfrastructure.Queues.Config;
 using Voting.Api;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,24 +9,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMq"));
 
-builder.Services.AddMassTransit(x =>
-{
-    x.SetKebabCaseEndpointNameFormatter();
-    x.UsingRabbitMq((ctx, cfg) =>
-    {
-        var config = ctx.GetRequiredService<IOptions<RabbitMQSettings>>().Value;
-        cfg.Host(config.Host, "/", h =>
-        {
-            h.Username(config.Username);
-            h.Password(config.Password);
-        });
-        cfg.ConfigureEndpoints(ctx);
-    });
-});
+builder.Services.AddMassTransitWithRabbitMq();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

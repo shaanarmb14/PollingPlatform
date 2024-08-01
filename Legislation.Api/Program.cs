@@ -1,3 +1,4 @@
+using Legislation.Api.Extensions;
 using Legislation.Api.Law;
 using Legislation.Api.Referendum;
 using Legislation.Data;
@@ -28,6 +29,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();

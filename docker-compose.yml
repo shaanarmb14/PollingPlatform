@@ -6,12 +6,18 @@ services:
     build:
       context: .
       dockerfile: Voting.Api/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001" 
 
   results.api:
     image: ${DOCKER_REGISTRY-}resultsapi
     build:
       context: .
       dockerfile: Results.Api/Dockerfile
+    ports:
+      - "5002:5002"
+      - "5003:5003"
 
 
   legislation.api:
@@ -19,10 +25,12 @@ services:
     build:
       context: .
       dockerfile: Legislation.Api/Dockerfile
-
+    ports:
+      - "5004:5004"
+      - "5005:5005"
   db:
     image: postgres:latest
-    container_name: postgres_db
+    container_name: db
     restart: always
     environment:
       POSTGRES_USER: root
@@ -31,7 +39,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./.containers/database:/var/lib/postgresql/data
   db-dashboard:
     image: dpage/pgadmin4:latest
     container_name: postgres_dashboard
@@ -56,8 +64,6 @@ services:
     # helps to separate container network configurations
     networks:
       - rabbitmq_go_net
-volumes:
-  postgres_data:
 networks:
   rabbitmq_go_net:
     driver: bridge

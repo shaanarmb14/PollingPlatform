@@ -1,6 +1,26 @@
-version: "3.8"
+version: '3.4'
+
 services:
-  postgres:
+  voting.api:
+    image: ${DOCKER_REGISTRY-}votingapi
+    build:
+      context: .
+      dockerfile: Voting.Api/Dockerfile
+
+  results.api:
+    image: ${DOCKER_REGISTRY-}resultsapi
+    build:
+      context: .
+      dockerfile: Results.Api/Dockerfile
+
+
+  legislation.api:
+    image: ${DOCKER_REGISTRY-}legislationapi
+    build:
+      context: .
+      dockerfile: Legislation.Api/Dockerfile
+
+  db:
     image: postgres:latest
     container_name: postgres_db
     restart: always
@@ -12,8 +32,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  pgadmin:
+  db-dashboard:
     image: dpage/pgadmin4:latest
     container_name: postgres_dashboard
     restart: always
@@ -23,7 +42,7 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - postgres
+      - db
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'

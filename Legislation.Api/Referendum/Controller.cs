@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Legislation.Api.Referendum;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ReferendumController(
+[Authorize(Roles = "legislator")]
+public class ReferendumsController(
     IReferendumRepository repository, 
-    ILogger<ReferendumController> logger
+    ILogger<ReferendumsController> logger
 ) : ControllerBase
 {
     [HttpGet]
@@ -72,7 +74,7 @@ public class ReferendumController(
         }
     }
 
-    [HttpPatch]
+    [HttpPut]
     public IActionResult Update([FromBody] UpdateReferendumRequest request)
     {
         if (request is null)

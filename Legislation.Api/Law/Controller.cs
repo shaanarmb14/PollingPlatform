@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Legislation.Api.Law;
 
 [ApiController]
 [Route("api/[controller]")]
-public class LawController(
+[Authorize(Roles = "legislator")]
+public class LawsController(
     ILawRepository repository, 
-    ILogger<LawController> logger
+    ILogger<LawsController> logger
 ) : ControllerBase
 {
     [HttpGet]

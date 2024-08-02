@@ -12,6 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services
+    .AddAuthentication()
+    .AddBearerToken();
+
 builder.Services.AddDbContext<LegislationContext>(o => 
     o.UseNpgsql(builder.Configuration.GetConnectionString("LegislationContext")));
 

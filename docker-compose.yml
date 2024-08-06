@@ -1,69 +1,21 @@
 version: '3.4'
 
 services:
+  legislation.api:
+    image: ${DOCKER_REGISTRY-}legislationapi
+    build:
+      context: .
+      dockerfile: Legislation.Api/Dockerfile
+
   voting.api:
     image: ${DOCKER_REGISTRY-}votingapi
     build:
       context: .
       dockerfile: Voting.Api/Dockerfile
-    ports:
-      - "5000:5000"
-      - "5001:5001" 
 
   results.api:
     image: ${DOCKER_REGISTRY-}resultsapi
     build:
       context: .
       dockerfile: Results.Api/Dockerfile
-    ports:
-      - "5002:5002"
-      - "5003:5003"
 
-
-  legislation.api:
-    image: ${DOCKER_REGISTRY-}legislationapi
-    build:
-      context: .
-      dockerfile: Legislation.Api/Dockerfile
-    ports:
-      - "5004:5004"
-      - "5005:5005"
-  db:
-    image: postgres:latest
-    container_name: db
-    restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 2df2e15e-bb15-401d-b49c-153a14b6c173
-      POSTGRES_DB: localdb
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./.containers/database:/var/lib/postgresql/data
-  db-dashboard:
-    image: dpage/pgadmin4:latest
-    container_name: postgres_dashboard
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
-    ports:
-      - 5672:5672
-      - 15672:15672
-    # allows us to view the files directly in their local folder structure instead of having to connect to the container
-    volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-    # helps to separate container network configurations
-    networks:
-      - rabbitmq_go_net
-networks:
-  rabbitmq_go_net:
-    driver: bridge

@@ -12,9 +12,12 @@ public class Law
     [Column(TypeName = "varchar(100)")]
     public string Name { get; set; } = string.Empty;
     [DefaultValue(0)]
-    public int Votes { get; set; } = 0;
+    public int YesVotes { get; set; } = 0;
+    public int NoVotes { get; set; } = 0;
     public DateTime CreatedAt { get; set; }
     public DateTime LastUpdated { get; set; }
+
+    public int TotalVotes => YesVotes + NoVotes;
 
     public int ReferendumID { get; set; }
     public Referendum Referendum { get; set; } = null!;

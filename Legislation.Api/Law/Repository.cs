@@ -44,7 +44,8 @@ public class LawRepository(LegislationContext context) : ILawRepository
         {
             ReferendumID = referendum.ID,
             Name = req.Name,
-            Votes = req.Votes,
+            YesVotes = req.YesVotes,
+            NoVotes = req.NoVotes,
             CreatedAt = now,
             LastUpdated = now
         };
@@ -65,12 +66,13 @@ public class LawRepository(LegislationContext context) : ILawRepository
             law.Name = req.Name;
         }
 
-        law.Votes = req.Votes ?? law.Votes;
+        //TODO: should this be plus equals instead of a hard replacement?
+        law.YesVotes = req.YesVotes ?? law.YesVotes;
+        law.NoVotes = req.NoVotes ?? law.NoVotes;
 
         var updatedEntity = context.Laws.Update(law);
         context.SaveChanges();
         return updatedEntity.Entity;
-
     }
 
     public bool Delete(int id)

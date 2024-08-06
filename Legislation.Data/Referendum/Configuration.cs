@@ -1,8 +1,7 @@
-﻿using Legislation.Data.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Legislation.Data.Configuration;
+namespace Legislation.Data.ReferendumEntity;
 
 public class ReferendumConfiguration : IEntityTypeConfiguration<Referendum>
 {

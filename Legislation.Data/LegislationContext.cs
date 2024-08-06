@@ -1,5 +1,5 @@
-﻿using Legislation.Data.Configuration;
-using Legislation.Data.Entities;
+﻿using Legislation.Data.LawEntity;
+using Legislation.Data.ReferendumEntity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Legislation.Data;

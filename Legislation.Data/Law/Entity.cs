@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
+﻿using Legislation.Data.ReferendumEntity;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Legislation.Data.Entities;
+namespace Legislation.Data.LawEntity;
 
 public class Law
 {

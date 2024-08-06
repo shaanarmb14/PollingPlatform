@@ -1,4 +1,4 @@
-﻿using LawEntity = Legislation.Data.Entities.Law;
+﻿using LawEntity = Legislation.Data.LawEntity.Law;
 
 namespace Legislation.Api.Referendum;
 

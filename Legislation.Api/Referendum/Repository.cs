@@ -1,6 +1,6 @@
 ﻿using Legislation.Data;
 using Microsoft.EntityFrameworkCore;
-using ReferendumEntity = Legislation.Data.Entities.Referendum;
+using ReferendumEntity = Legislation.Data.ReferendumEntity.Referendum;
 
 namespace Legislation.Api.Referendum;
 

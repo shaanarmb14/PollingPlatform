@@ -7,7 +7,13 @@ public class UpdateVotesConsumer(ILogger<UpdateVotesConsumer> logger) : IConsume
 {
     public Task Consume(ConsumeContext<UpdateVotes> context)
     {
-        logger.LogInformation("Updating votes for {LawID} to {Votes}", context.Message.LawID, context.Message.Votes);
+        logger.LogInformation(
+            "Updating votes for {LawID} | No. of Yes Votes {YesVotes} | No. of No Votes {NoVotes}",
+            context.Message.LawID, 
+            context.Message.YesVotes,
+            context.Message.NoVotes
+        );
+        
         return Task.CompletedTask;
     }
 }

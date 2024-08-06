@@ -2,7 +2,7 @@
 
 namespace Voting.Api;
 
-public record VoteRequest(int LawID, int Votes) 
+public record VoteRequest(int LawID, int YesVotes, int NoVotes) 
 {
-    public UpdateVotes ToMessage() => new(LawID, Votes);
+    public UpdateVotes ToMessage() => new(LawID, YesVotes, NoVotes);
 }

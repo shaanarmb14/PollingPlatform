@@ -2,5 +2,6 @@
 
 public record UpdateVotes(
     int LawID,
-    int Votes
+    int YesVotes,
+    int NoVotes
 );

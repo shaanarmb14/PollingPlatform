@@ -5,7 +5,7 @@ namespace Legislation.Api.Law;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "legislator")]
+[Authorize(Roles = Auth.Roles.LegislatorRole)]
 public class LawsController(
     ILawRepository repository, 
     ILogger<LawsController> logger

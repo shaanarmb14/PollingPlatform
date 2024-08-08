@@ -5,7 +5,7 @@ namespace Legislation.Api.Referendum;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "legislator")]
+[Authorize(Roles = Auth.Roles.LegislatorRole)]
 public class ReferendumsController(
     IReferendumRepository repository, 
     ILogger<ReferendumsController> logger

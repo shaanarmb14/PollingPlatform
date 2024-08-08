@@ -18,4 +18,9 @@ services:
     build:
       context: .
       dockerfile: Results.Api/Dockerfile
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: .
+      dockerfile: Identity.API/Dockerfile
 

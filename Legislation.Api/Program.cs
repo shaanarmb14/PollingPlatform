@@ -1,4 +1,5 @@
 using Infrastructure.Queues.Config;
+using Legislation.Api.Extensions;
 using Legislation.Api.Law;
 using Legislation.Api.Referendum;
 using Legislation.Data;
@@ -26,7 +27,6 @@ builder.Services.AddTransient<IReferendumRepository, ReferendumRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

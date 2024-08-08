@@ -1,4 +1,4 @@
-﻿namespace SharedInfrastructure.Queues.Contracts;
+﻿namespace Infrastructure.Queues.Contracts;
 
 public record UpdateVotes(
     int LawID,

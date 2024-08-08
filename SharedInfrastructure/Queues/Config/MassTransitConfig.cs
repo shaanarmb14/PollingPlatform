@@ -2,12 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Reflection;
-using Voting.Api;
 
-namespace SharedInfrastructure.Queues.Config;
+namespace Infrastructure.Queues.Config;
 
 public static class MassTransitConfig
 {
+    private static readonly string VirtualHost = "/";
     public static IServiceCollection AddMassTransitWithRabbitMq(this IServiceCollection services, RabbitMQSettings settings)
     {
         services.AddMassTransit(x =>
@@ -15,7 +15,7 @@ public static class MassTransitConfig
             x.SetKebabCaseEndpointNameFormatter();
             x.UsingRabbitMq((ctx, cfg) =>
             {
-                cfg.Host(settings.Host, h =>
+                cfg.Host(settings.Host, VirtualHost, h =>
                 {
                     h.Username(settings.Username);
                     h.Password(settings.Password);
@@ -23,7 +23,6 @@ public static class MassTransitConfig
 
                 cfg.ConfigureEndpoints(ctx);
             });
-
         });
 
         return services;

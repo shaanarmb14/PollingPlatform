@@ -1,5 +1,7 @@
+using Infrastructure.Queues.Config;
 using MassTransit;
-using SharedInfrastructure.Queues.Config;
+using Microsoft.AspNetCore.Authentication.BearerToken;
+using System.Security.Claims;
 using Voting.Api;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,4 +1,4 @@
-﻿namespace Voting.Api;
+﻿namespace Infrastructure.Queues.Config;
 
 public record RabbitMQSettings
 {

@@ -1,5 +1,6 @@
-﻿using MassTransit;
-using SharedInfrastructure.Queues.Contracts;
+using Legislation.Api.Law;
+using MassTransit;
+using Infrastructure.Queues.Contracts;
 
 namespace Legislation.Api.Consumers;
 

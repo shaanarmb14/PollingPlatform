@@ -1,10 +1,8 @@
-using Legislation.Api.Extensions;
+using Infrastructure.Queues.Config;
 using Legislation.Api.Law;
 using Legislation.Api.Referendum;
 using Legislation.Data;
 using Microsoft.EntityFrameworkCore;
-using SharedInfrastructure.Queues.Config;
-using Voting.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 

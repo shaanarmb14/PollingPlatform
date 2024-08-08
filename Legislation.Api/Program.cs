@@ -4,6 +4,7 @@ using Legislation.Api.Law;
 using Legislation.Api.Referendum;
 using Legislation.Data;
 using Microsoft.EntityFrameworkCore;
+using Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddAuthentication()
     .AddBearerToken();
+builder.Services
+    .AddAuthorizationBuilder()
+    .AddPolicy(Policies.LegislatorOnlyPolicy, policy => policy.RequireRole(Roles.LegislatorRole));
 
 builder.Services.AddDbContext<LegislationContext>(o => 
     o.UseNpgsql(builder.Configuration.GetConnectionString("LegislationContext")));

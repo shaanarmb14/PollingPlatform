@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Auth;
 
 namespace Legislation.Api.Referendum;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = Auth.Roles.LegislatorRole)]
+[Authorize(Policy = Policies.LegislatorOnlyPolicy)]
 public class ReferendumsController(
     IReferendumRepository repository, 
     ILogger<ReferendumsController> logger

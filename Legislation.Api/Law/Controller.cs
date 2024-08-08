@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Auth;
 
 namespace Legislation.Api.Law;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = Auth.Roles.LegislatorRole)]
+[Authorize(Policy = Policies.LegislatorOnlyPolicy)]
 public class LawsController(
     ILawRepository repository, 
     ILogger<LawsController> logger

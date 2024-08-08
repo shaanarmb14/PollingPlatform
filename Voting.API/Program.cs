@@ -1,6 +1,7 @@
 using Infrastructure.Queues.Config;
 using MassTransit;
 using Voting.Api;
+using Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,9 +10,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddProblemDetails();
 
-builder.Services.AddAuthentication();
-builder.Services.AddAuthorizationBuilder()
-    .AddPolicy(Auth.Policies.CitizenOnlyPolicy, policy => policy.RequireRole(Auth.Roles.CitizenRole));
+builder.Services
+    .AddAuthentication()
+    .AddBearerToken();
+builder.Services
+    .AddAuthorizationBuilder()
+    .AddPolicy(Policies.CitizenOnlyPolicy, policy => policy.RequireRole(Roles.CitizenRole));
 
 var rabbitMQConfig = new RabbitMQSettings() { Host = string.Empty, Username = string.Empty, Password = string.Empty};
 builder.Configuration.GetSection("RabbitMq").Bind(rabbitMQConfig);
@@ -32,8 +36,8 @@ app.UseAuthorization();
 
 app.MapPost("/vote", async (
     IPublishEndpoint publisher, 
-    VoteRequest request, 
-    CancellationToken cancellationToken
+    CancellationToken cancellationToken,
+    VoteRequest request
 ) =>
 {
     var validRequest = request.Validate();
@@ -50,6 +54,6 @@ app.MapPost("/vote", async (
 })
     .WithName("CreateVote")
     .WithOpenApi()
-    .RequireAuthorization(Auth.Policies.CitizenOnlyPolicy);
+    .RequireAuthorization(Policies.CitizenOnlyPolicy);
 
 app.Run();

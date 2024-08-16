@@ -18,7 +18,7 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
     {
         var referendums = context.Referendums
                             .AsNoTracking()
-                            .Include(r => r.Laws);
+                            .Include(r => r.Law);
         return [.. referendums];
     }
 
@@ -26,7 +26,7 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
     {
         return context.Referendums
             .AsNoTracking()
-            .Include(r => r.Laws)
+            .Include(r => r.Law)
             .Single();
     }
 
@@ -37,7 +37,7 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
         var newEntity = new ReferendumEntity
         {
             Name = req.Name,
-            Laws = req.Laws ?? [],
+            Law = req.Law,
             CreatedAt = now,
             LastUpdated = now
         };
@@ -57,6 +57,7 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
         {
             referendum.Name = req.Name;
         }
+
         referendum.Ended = req.Ended ?? false;
         referendum.LastUpdated = DateTime.UtcNow;
 

@@ -8,10 +8,8 @@ public class ReferendumConfiguration : IEntityTypeConfiguration<Referendum>
     public void Configure(EntityTypeBuilder<Referendum> builder)
     {
         builder
-            .HasMany(r => r.Laws)
-            .WithOne(l => l.Referendum)
-            .HasForeignKey(l => l.ReferendumID)
-            .IsRequired();
+            .HasIndex(l => l.LawID)
+            .HasDatabaseName("IX_ReferendumEntity_LawID");
 
         // Note postgress specific
         builder
@@ -21,7 +19,6 @@ public class ReferendumConfiguration : IEntityTypeConfiguration<Referendum>
             .Property(r => r.LastUpdated)
             .HasDefaultValueSql("now() AT TIME ZONE 'UTC'");
 
-        // Not sure if this is doubling up with [DefaultValue] attribute
         builder
             .Property(r => r.Ended)
             .HasDefaultValue(false);

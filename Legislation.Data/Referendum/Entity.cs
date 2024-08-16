@@ -17,5 +17,6 @@ public class Referendum
     public DateTime CreatedAt { get; set; }
     public DateTime LastUpdated { get; set; }
 
-    public required List<Law> Laws { get; set; } = [];
+    public int LawID { get; set; }
+    public Law Law { get; set; } = null!;
 }

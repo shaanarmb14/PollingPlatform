@@ -14,5 +14,12 @@ public class ResultConfiguration : IEntityTypeConfiguration<Result>
         builder
             .Property(r => r.LastUpdated)
             .HasDefaultValueSql("now() AT TIME ZONE 'UTC'");
+
+        builder
+            .Property(s => s.Outcome)
+            .HasConversion(
+                v => v.ToString(),
+                v => OutcomeExtensions.ParseFrom(v)
+            );
     }
 }

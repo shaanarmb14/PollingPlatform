@@ -2,6 +2,9 @@ using Infrastructure.Queues.Config;
 using MassTransit;
 using Voting.Api;
 using Auth;
+using Microsoft.EntityFrameworkCore;
+using Voting.Data;
+using Voting.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,9 @@ builder.Services
     .AddAuthorizationBuilder()
     .AddPolicy(Policies.CitizenOnlyPolicy, policy => policy.RequireRole(Roles.CitizenRole));
 
+builder.Services.AddDbContext<VoteContext>(o =>
+    o.UseNpgsql(builder.Configuration.GetConnectionString("VoteContext")));
+
 var rabbitMQConfig = new RabbitMQSettings() { Host = string.Empty, Username = string.Empty, Password = string.Empty};
 builder.Configuration.GetSection("RabbitMq").Bind(rabbitMQConfig);
 builder.Services.AddMassTransitWithRabbitMq(rabbitMQConfig);
@@ -27,6 +33,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();

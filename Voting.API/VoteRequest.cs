@@ -1,13 +1,11 @@
-﻿using Infrastructure.Queues.Contracts;
+﻿using Voting.Data.VoteEntity;
 
 namespace Voting.Api;
 
-public record VoteRequest(int LawID, int YesVotes, int NoVotes) 
+public record VoteRequest(VoteChoice Choice, int ReferendumID) 
 {
     public bool Validate()
     {
-        return LawID > 0;
+        return ReferendumID > 0;
     }
-
-    public UpdateVotes ToMessage() => new(LawID, YesVotes, NoVotes);
 }

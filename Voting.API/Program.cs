@@ -1,10 +1,9 @@
-using Infrastructure.Queues.Config;
-using MassTransit;
-using Voting.Api;
 using Auth;
+using Infrastructure.Queues.Config;
 using Microsoft.EntityFrameworkCore;
-using Voting.Data;
+using Voting.Api;
 using Voting.Api.Extensions;
+using Voting.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +26,8 @@ var rabbitMQConfig = new RabbitMQSettings() { Host = string.Empty, Username = st
 builder.Configuration.GetSection("RabbitMq").Bind(rabbitMQConfig);
 builder.Services.AddMassTransitWithRabbitMq(rabbitMQConfig);
 
+builder.Services.AddTransient<IVoteRepository, VoteRepository>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -41,11 +42,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapPost("/vote", async (
-    IPublishEndpoint publisher, 
-    CancellationToken cancellationToken,
-    VoteRequest request
-) =>
+app.MapPost("/vote", (VoteRequest request, IVoteRepository repository) =>
 {
     var validRequest = request.Validate();
 
@@ -54,10 +51,9 @@ app.MapPost("/vote", async (
         return Results.BadRequest("Invalid request body");
     }
 
-    var message = request.ToMessage();
-    await publisher.Publish(message, cancellationToken);
+    var newVote = repository.Create(request);
 
-    return Results.Created();
+    return Results.Created(string.Empty, newVote);
 })
     .WithName("CreateVote")
     .WithOpenApi()

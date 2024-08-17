@@ -11,7 +11,7 @@ public class Law
     public int ID { get; set; }
     [Column(TypeName = "varchar(100)")]
     public string Name { get; set; } = string.Empty;
-    public DateTime CreatedAt { get; set; }
-    public DateTime LastUpdated { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
     public required List<Referendum> Referendums { get; set; } = [];
 }

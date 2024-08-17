@@ -30,20 +30,22 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
             .Single();
     }
 
-    ///TODO: add better collision handling
     public ReferendumEntity Create(CreateReferendumRequest req) 
     {
+        var law = context.Laws.AsNoTracking().FirstOrDefault(l => l.ID == req.LawID) ?? throw new ArgumentException("Invalid LawID");
+        
         var now = DateTime.UtcNow;
         var newEntity = new ReferendumEntity
         {
             Name = req.Name,
-            Law = req.Law,
+            Law = law, // EF core should manage the relationship for us
             CreatedAt = now,
             LastUpdated = now
         };
 
         var createdEntity = context.Referendums.Add(newEntity);
         context.SaveChanges();
+
         return createdEntity.Entity;
     }
 

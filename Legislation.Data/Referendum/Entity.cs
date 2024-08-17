@@ -13,9 +13,10 @@ public class Referendum
     [Column(TypeName = "varchar(100)")]
     public string Name { get; set; } = string.Empty;
     [DefaultValue(false)]
-    public bool Ended { get; set; } = false;
-    public DateTime CreatedAt { get; set; }
-    public DateTime LastUpdated { get; set; }
+    public bool Open { get; set; } = true;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 
-    public required List<Law> Laws { get; set; } = [];
+    public int LawID { get; set; }
+    public Law Law { get; set; } = null!;
 }

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Auth;
 
 namespace Legislation.Api.Referendum;
 
@@ -8,7 +8,7 @@ namespace Legislation.Api.Referendum;
 [Route("api/[controller]")]
 [Authorize(Policy = Policies.LegislatorOnlyPolicy)]
 public class ReferendumsController(
-    IReferendumRepository repository, 
+    IReferendumRepository repository,
     ILogger<ReferendumsController> logger
 ) : ControllerBase
 {
@@ -64,6 +64,14 @@ public class ReferendumsController(
             var newReferendum = repository.Create(request);
 
             return Ok(newReferendum);
+        }
+        catch (ArgumentException e)
+        {
+            logger.LogError(e, "Error creating referendum");
+            return Problem(
+                statusCode: StatusCodes.Status400BadRequest,
+                title: e.Message
+            );
         }
         catch (Exception e)
         {

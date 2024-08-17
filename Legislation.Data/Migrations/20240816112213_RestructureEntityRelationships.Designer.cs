@@ -3,6 +3,7 @@ using System;
 using Legislation.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Legislation.Data.Migrations
 {
     [DbContext(typeof(LegislationContext))]
-    partial class LegislationContextModelSnapshot : ModelSnapshot
+    [Migration("20240816112213_RestructureEntityRelationships")]
+    partial class RestructureEntityRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,6 +65,11 @@ namespace Legislation.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now() AT TIME ZONE 'UTC'");
 
+                    b.Property<bool>("Ended")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
                     b.Property<DateTime>("LastUpdated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -73,11 +81,6 @@ namespace Legislation.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
-
-                    b.Property<bool>("Open")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
 
                     b.HasKey("ID");
 

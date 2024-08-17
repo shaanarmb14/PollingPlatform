@@ -1,16 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Legislation.Data.ReferendumEntity;
+namespace Results.Data.ResultEntity;
 
-public class ReferendumConfiguration : IEntityTypeConfiguration<Referendum>
+public class ResultConfiguration : IEntityTypeConfiguration<Result>
 {
-    public void Configure(EntityTypeBuilder<Referendum> builder)
+    public void Configure(EntityTypeBuilder<Result> builder)
     {
-        builder
-            .HasIndex(l => l.LawID)
-            .HasDatabaseName("IX_ReferendumEntity_LawID");
-
         // Note postgress specific
         builder
             .Property(r => r.CreatedAt)
@@ -20,7 +16,10 @@ public class ReferendumConfiguration : IEntityTypeConfiguration<Referendum>
             .HasDefaultValueSql("now() AT TIME ZONE 'UTC'");
 
         builder
-            .Property(r => r.Open)
-            .HasDefaultValue(true);
+            .Property(s => s.Outcome)
+            .HasConversion(
+                v => v.ToString(),
+                v => OutcomeExtensions.ParseFrom(v)
+            );
     }
 }

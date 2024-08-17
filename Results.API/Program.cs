@@ -1,7 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Results.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddDbContext<ResultContext>(o =>
+    o.UseNpgsql(builder.Configuration.GetConnectionString("VoteContext"))); 
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

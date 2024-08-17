@@ -18,7 +18,7 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
     {
         var referendums = context.Referendums
                             .AsNoTracking()
-                            .Include(r => r.Laws);
+                            .Include(r => r.Law);
         return [.. referendums];
     }
 
@@ -26,24 +26,26 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
     {
         return context.Referendums
             .AsNoTracking()
-            .Include(r => r.Laws)
+            .Include(r => r.Law)
             .Single();
     }
 
-    ///TODO: add better collision handling
     public ReferendumEntity Create(CreateReferendumRequest req) 
     {
+        var law = context.Laws.AsNoTracking().FirstOrDefault(l => l.ID == req.LawID) ?? throw new ArgumentException("Invalid LawID");
+        
         var now = DateTime.UtcNow;
         var newEntity = new ReferendumEntity
         {
             Name = req.Name,
-            Laws = req.Laws ?? [],
+            Law = law, // EF core should manage the relationship for us
             CreatedAt = now,
             LastUpdated = now
         };
 
         var createdEntity = context.Referendums.Add(newEntity);
         context.SaveChanges();
+
         return createdEntity.Entity;
     }
 
@@ -57,7 +59,8 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
         {
             referendum.Name = req.Name;
         }
-        referendum.Ended = req.Ended ?? false;
+
+        referendum.Open = req.Open ?? false;
         referendum.LastUpdated = DateTime.UtcNow;
 
         var updatedEntity = context.Referendums.Update(referendum);

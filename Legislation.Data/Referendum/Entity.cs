@@ -13,7 +13,7 @@ public class Referendum
     [Column(TypeName = "varchar(100)")]
     public string Name { get; set; } = string.Empty;
     [DefaultValue(false)]
-    public bool Ended { get; set; } = false;
+    public bool Open { get; set; } = true;
     public DateTime CreatedAt { get; set; }
     public DateTime LastUpdated { get; set; }
 

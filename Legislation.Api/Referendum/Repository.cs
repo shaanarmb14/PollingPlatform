@@ -58,7 +58,7 @@ public class ReferendumRepository(LegislationContext context) : IReferendumRepos
             referendum.Name = req.Name;
         }
 
-        referendum.Ended = req.Ended ?? false;
+        referendum.Open = req.Open ?? false;
         referendum.LastUpdated = DateTime.UtcNow;
 
         var updatedEntity = context.Referendums.Update(referendum);

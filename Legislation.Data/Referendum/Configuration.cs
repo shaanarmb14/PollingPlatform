@@ -20,7 +20,7 @@ public class ReferendumConfiguration : IEntityTypeConfiguration<Referendum>
             .HasDefaultValueSql("now() AT TIME ZONE 'UTC'");
 
         builder
-            .Property(r => r.Ended)
-            .HasDefaultValue(false);
+            .Property(r => r.Open)
+            .HasDefaultValue(true);
     }
 }
